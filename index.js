@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const request = require('request-promise')
 const bodyParser = require('body-parser')
+const config = require('./config')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -13,30 +14,35 @@ app.engine('html', require('ejs').renderFile)
 
 // 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
-  res.render('index', {})
+  res.render('index', {
+    redirectUri: config.redirectUri,
+    clientId: config.clientId
+  })
 })
 
 // 문자 전송 view
 app.get('/send', (req, res) => {
-  res.render('send', {})
+  res.render('send', {
+    redirectUri: config.redirectUri
+  })
 })
 
 // 인증 처리 API
 app.get('/authorize', async (req, res) => {
-  const {code, state} = req.query
-  const result = await request({
+  const { code } = req.query
+  const { access_token } = await request({
     method: 'POST',
     uri: 'https://rest.coolsms.co.kr/oauth2/v1/access_token',
     body: {
       grant_type: 'authorization_code',
       code,
-      client_id: 'CIDRWEKR9TSFDKO2',
-      client_secret: '25EZ4NUATZAU8GOX4JMEPNSSNEFBXSID',
-      redirect_uri: 'http://192.168.31.128/authorize'
+      client_id: config.clientId,
+      client_secret: config.clientSecret,
+      redirect_uri: config.redirectUri
     },
     json: true
   })
-  res.cookie('CSAK', result.access_token, {
+  res.cookie('CSAK', access_token, {
     'domain': '',
     'httpOnly': false,
     'signed': false,
@@ -47,13 +53,13 @@ app.get('/authorize', async (req, res) => {
 
 // 문자 전송 API
 app.post('/send', async (req, res) => {
-  const {text, to, from} = req.body
+  const { text, to, from } = req.body
   try {
     await request({
       method: 'POST',
       uri: 'https://rest.coolsms.co.kr/messages/v4/send',
       body: {
-        message: {text, to, from, agent: {appId: 'qWTkwjeGBtj5'}}
+        message: {text, to, from, agent: {appId: config.appId}}
       },
       json: true
     })
