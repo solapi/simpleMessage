@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KimGenius/simpleMessage.git"
+    "url": "git+https://github.com/coolsms/simpleMessage.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KimGenius/simpleMessage/issues"
+    "url": "https://github.com/coolsms/simpleMessage/issues"
   },
-  "homepage": "https://github.com/KimGenius/simpleMessage#readme",
+  "homepage": "https://github.com/coolsms/simpleMessage#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^2.6.1",
