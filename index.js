@@ -10,14 +10,20 @@ app.use(bodyParser.urlencoded({
 app.set('views', __dirname + '/views')
 app.set('view engine', 'ejs')
 app.engine('html', require('ejs').renderFile)
+
+// 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
   res.render('index', {})
 })
+
+// 문자 전송 view
 app.get('/send', (req, res) => {
   res.render('send', {})
 })
+
+// 인증 처리 API
 app.get('/authorize', async (req, res) => {
-  const { code, state } = req.query
+  const {code, state} = req.query
   const result = await request({
     method: 'POST',
     uri: 'https://rest.coolsms.co.kr/oauth2/v1/access_token',
@@ -38,22 +44,25 @@ app.get('/authorize', async (req, res) => {
   })
   res.redirect('/send')
 })
+
+// 문자 전송 API
 app.post('/send', async (req, res) => {
-  console.log('CHECK REQ !')
-  console.log(req.body)
-  const { text, to, from } = req.body
-  console.log('check PARAMS', text, to, from)
-  const result = await request({
-    method: 'POST',
-    uri: 'https://rest.coolsms.co.kr/messages/v4/send',
-    body: {
-      message: { text, to, from, agent: { appId: 'qWTkwjeGBtj5' } }
-    },
-    json: true
-  })
-  console.log(result)
+  const {text, to, from} = req.body
+  try {
+    await request({
+      method: 'POST',
+      uri: 'https://rest.coolsms.co.kr/messages/v4/send',
+      body: {
+        message: {text, to, from, agent: {appId: 'qWTkwjeGBtj5'}}
+      },
+      json: true
+    })
+  } catch (err) {
+    console.log(err)
+  }
   res.redirect('/send')
 })
+
 app.listen(80, () => {
   console.log(`Server is running on port : 80`)
 })
