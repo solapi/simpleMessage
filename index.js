@@ -1,14 +1,17 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 const app = express()
 const request = require('request-promise')
 const bodyParser = require('body-parser')
 const config = require('./config')
 
 app.use(bodyParser.json())
+app.use(cookieParser())
 app.use(bodyParser.urlencoded({
   extended: true
 }))
-app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/public/views')
+app.use(express.static(__dirname + '/public'))
 app.set('view engine', 'ejs')
 app.engine('html', require('ejs').renderFile)
 
@@ -23,7 +26,7 @@ app.get('/', (req, res) => {
 // 문자 전송 view
 app.get('/send', (req, res) => {
   res.render('send', {
-    redirectUri: config.redirectUri
+    result: req.query.result
   })
 })
 
@@ -32,7 +35,7 @@ app.get('/authorize', async (req, res) => {
   const { code } = req.query
   const { access_token } = await request({
     method: 'POST',
-    uri: 'https://rest.coolsms.co.kr/oauth2/v1/access_token',
+    uri: 'https://rest.test.coolsms.co.kr/oauth2/v1/access_token',
     body: {
       grant_type: 'authorization_code',
       code,
@@ -53,20 +56,24 @@ app.get('/authorize', async (req, res) => {
 
 // 문자 전송 API
 app.post('/send', async (req, res) => {
-  const { text, to, from } = req.body
+  const { body: { text, to, from }, cookies: { CSAK } } = req
   try {
-    await request({
+    const result = await request({
       method: 'POST',
-      uri: 'https://rest.coolsms.co.kr/messages/v4/send',
+      uri: 'https://rest.test.coolsms.co.kr/messages/v4/send',
+      headers: {
+        'Authorization': `bearer ${CSAK}`
+      },
       body: {
-        message: {text, to, from, agent: {appId: config.appId}}
+        message: {text, to, from},
+        agent: {appId: config.appId}
       },
       json: true
     })
+    return res.redirect(`send?result=${JSON.stringify(result)}`)
   } catch (err) {
     console.log(err)
   }
-  res.redirect('/send')
 })
 
 app.listen(80, () => {

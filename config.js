@@ -1,6 +1,6 @@
 module.exports = {
   redirectUri: 'http://192.168.31.128/authorize',
-  clientId: 'CIDRWEKR9TSFDKO2',
-  clientSecret: '25EZ4NUATZAU8GOX4JMEPNSSNEFBXSID',
-  appId: 'qWTkwjeGBtj5'
+  clientId: 'CIDPL49TEFPSPLZS',
+  clientSecret: 'P7WV8A8PKWLB5YY35QNQP6WPH219APOK',
+  appId: 'vTL0qHdlXXXp'
 }

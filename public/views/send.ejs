@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>SimpleMessage - 문자 발송</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<h3 class="text-center">문자 발송</h3>
+<div class="container">
+    <form method="post" action="/send">
+        <div class="form-group">
+            <label for="from">발신번호</label>
+            <input type="text" class="form-control" name="from" id="from" value="01048597580">
+        </div>
+        <div class="form-group">
+            <label for="to">수신번호</label>
+            <input type="text" class="form-control" name="to" id="to" value="01029951047">
+        </div>
+        <div class="form-group">
+            <label for="text">내용</label>
+            <input type="text" class="form-control" name="text" id="text" value="Hello world!">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-block btn-success" value="발송"/>
+        </div>
+    </form>
+    <code>
+        <%=result%>
+    </code>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
