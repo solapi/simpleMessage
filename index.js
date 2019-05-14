@@ -72,7 +72,13 @@ app.get('/config', async (req, res) => {
 // 인증 처리 API
 app.get('/authorize', async (req, res) => {
   const { code } = req.query
-  const { SimpleMessageInfo: { clientId, clientSecret, redirectUri } } = req.cookies
+  const {
+    SimpleMessageInfo: {
+      clientId,
+      clientSecret,
+      redirectUri
+    }
+  } = req.cookies
   const { access_token } = await request({
     method: 'POST',
     uri: 'https://rest.test.coolsms.co.kr/oauth2/v1/access_token',
@@ -112,7 +118,8 @@ app.post('/send', async (req, res) => {
     })
     return res.redirect(`send?result=${JSON.stringify(result)}`)
   } catch (err) {
-    console.log(err)
+    const { errorCode, errorMessage } = err.error
+    return res.redirect(`send?result=${errorCode}-${errorMessage}`)
   }
 })
 
