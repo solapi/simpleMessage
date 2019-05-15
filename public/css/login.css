@@ -1,0 +1,14 @@
+input[type=submit] {
+    background-color: #0c5eba;
+    color: #ffffff;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    margin: 40vh auto 0;
+    display: block;
+}
+input[type=submit]:hover {
+    color: #ffffff;
+}

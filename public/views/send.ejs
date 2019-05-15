@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>SimpleMessage - 문자 발송</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<script>
+  $(function () {
+    if ('<%- result %>') $('#sendResultModal').modal()
+  })
+</script>
+<body>
+<div class="container">
+    <h3 class="text-center title">문자 발송</h3>
+    <form method="post" action="/send">
+        <div class="form-group">
+            <label for="from">발신번호</label>
+            <input type="text" class="form-control" name="from" id="from" value="01048597580">
+        </div>
+        <div class="form-group">
+            <label for="to">수신번호</label>
+            <input type="text" class="form-control" name="to" id="to" value="01029951047">
+        </div>
+        <div class="form-group">
+            <label for="text">내용</label>
+            <input type="text" class="form-control" name="text" id="text" value="Hello world!">
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-block btn-success" value="발송"/>
+        </div>
+    </form>
+    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#sendResultModal">결과 확인
+    </button>
+
+    <div id="sendResultModal" class="modal fade show" role="dialog" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">전송 결과</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <% if(result) { %>
+                        <code>
+                            <%= result %>
+                        </code>
+                    <% } else { %>
+                        <p>발송 버튼을 눌러 문자를 전송해보세요!</p>
+                    <% } %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

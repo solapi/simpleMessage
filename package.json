@@ -1,0 +1,30 @@
+{
+  "name": "simplemessage",
+  "version": "1.0.0",
+  "description": "Node js, Express로 만들어진 쿨에스엠에스를 통한 문자메시지 발송이 가능한 웹앱입니다.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coolsms/simpleMessage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coolsms/simpleMessage/issues"
+  },
+  "homepage": "https://github.com/coolsms/simpleMessage#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "nanoid": "^2.0.1",
+    "nodemon": "^1.19.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}

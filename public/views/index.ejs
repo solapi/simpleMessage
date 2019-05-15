@@ -1,0 +1,63 @@
+<html lang="ko">
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>SimpleMessage - 인증절차</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h3 class="text-center title">Simple Message</h3>
+    <form method="get" action="/config">
+        <div class="form-group">
+            <label for="app_id">App Id</label>
+            <input type="text" class="form-control" name="app_id" id="app_id" value="<%= appId %>">
+        </div>
+        <div class="form-group">
+            <label for="client_id">Client Id</label>
+            <input type="text" class="form-control" name="client_id" id="client_id" value="<%= clientId %>">
+        </div>
+        <div class="form-group">
+            <label for="client_secret">Client Secret</label>
+            <input type="text" class="form-control" name="client_secret" id="client_secret" value="<%= clientSecret %>">
+        </div>
+        <div class="form-group">
+            <label for="response_type">Response Type</label>
+            <input type="text" class="form-control" readonly name="response_type" id="response_type" value="code">
+        </div>
+        <div class="form-group">
+            <label for="scope">Scope</label>
+            <input type="text" class="form-control" name="scope" id="scope" value="users:read">
+        </div>
+        <div class="form-group">
+            <label for="redirect_uri">Redirect Uri</label>
+            <input type="text" class="form-control" name="redirect_uri" id="redirect_uri" value="<%= redirectUri %>">
+        </div>
+        <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" class="form-control" readonly name="state" id="state" value="<%= state %>">
+        </div>
+        <input type="submit" value="인증요청" class="btn btn-block btn-success"/>
+    </form>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

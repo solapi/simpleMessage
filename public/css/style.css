@@ -1,0 +1,8 @@
+.container {
+    width: 100%;
+    max-width: 550px;
+    margin-top: 4vh;
+}
+.title {
+    margin-bottom: 2vh;
+}
