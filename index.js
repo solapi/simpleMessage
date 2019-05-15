@@ -37,6 +37,11 @@ app.get('/', (req, res) => {
   })
 })
 
+// 로그인 버튼 view
+app.get('/login', (req, res) => {
+  res.render('login')
+})
+
 // 문자 전송 view
 app.get('/send', (req, res) => {
   res.render('send', {

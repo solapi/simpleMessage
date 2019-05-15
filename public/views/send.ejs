@@ -38,7 +38,8 @@
             <input type="submit" class="btn btn-block btn-success" value="발송"/>
         </div>
     </form>
-    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#sendResultModal">결과 확인</button>
+    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#sendResultModal">결과 확인
+    </button>
 
     <div id="sendResultModal" class="modal fade show" role="dialog" aria-modal="true">
         <div class="modal-dialog">
@@ -49,9 +50,9 @@
                 </div>
                 <div class="modal-body">
                     <% if(result) { %>
-                    <code>
-                        <%= result %>
-                    </code>
+                        <code>
+                            <%= result %>
+                        </code>
                     <% } else { %>
                         <p>발송 버튼을 눌러 문자를 전송해보세요!</p>
                     <% } %>
