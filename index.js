@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const app = express()
@@ -71,7 +73,7 @@ app.get('/config', async (req, res) => {
     'signed': false,
     'encode': String
   })
-  return res.redirect(`https://rest.test.coolsms.co.kr/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=${response_type}&redirect_uri=${redirectUri}`)
+  return res.redirect(`https://rest.coolsms.co.kr/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=${response_type}&redirect_uri=${redirectUri}`)
 })
 
 // 인증 처리 API
@@ -86,7 +88,7 @@ app.get('/authorize', async (req, res) => {
   } = req.cookies
   const { access_token } = await request({
     method: 'POST',
-    uri: 'https://rest.test.coolsms.co.kr/oauth2/v1/access_token',
+    uri: 'https://rest.coolsms.co.kr/oauth2/v1/access_token',
     body: {
       grant_type: 'authorization_code',
       code,
@@ -111,7 +113,7 @@ app.post('/send', async (req, res) => {
   try {
     const result = await request({
       method: 'POST',
-      uri: 'https://rest.test.coolsms.co.kr/messages/v4/send',
+      uri: 'https://rest.coolsms.co.kr/messages/v4/send',
       headers: {
         'Authorization': `bearer ${CSAK}`
       },
