@@ -1,8 +1,38 @@
 .container {
     width: 100%;
-    max-width: 550px;
+    /*max-width: 550px;*/
     margin-top: 4vh;
 }
+
+.login-wrap {
+    padding-top: 20%;
+    text-align: center;
+}
+
+.login-wrap input[type=submit] {
+    background-color: #0c5eba;
+}
+
+.login-wrap input[type=button] {
+    background-color: #43a047;
+}
+
+.login-wrap input[type=submit]:hover {
+    color: #ffffff;
+}
+
+.btn {
+    display: block;
+    width: 300px;
+    color: #ffffff !important;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
 .title {
     margin-bottom: 2vh;
 }
+

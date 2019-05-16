@@ -5,7 +5,14 @@ const cookieParser = require('cookie-parser')
 const app = express()
 const request = require('request-promise')
 const bodyParser = require('body-parser')
-const nanoid = require('nanoid')
+const nanoId = require('nanoid')
+const {
+  clientId,
+  clientSecret,
+  redirectUri,
+  appId,
+  host
+} = require('./config')
 
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -20,7 +27,7 @@ app.engine('html', require('ejs').renderFile)
 // 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
   const { SimpleMessageInfo } = req.cookies
-  const state = nanoid()
+  const state = nanoId()
   if (SimpleMessageInfo) {
     return res.render('index', {
       appId: SimpleMessageInfo.appId,
@@ -51,16 +58,13 @@ app.get('/send', (req, res) => {
   })
 })
 
-// 설정 저장하고 oauth 로그인으로 redirect
+// 설정 저장하고 다시 초기 화면으로 redirect
 app.get('/config', async (req, res) => {
   const {
     app_id: appId,
     client_id: clientId,
     client_secret: clientSecret,
-    redirect_uri: redirectUri,
-    state,
-    scope,
-    response_type
+    redirect_uri: redirectUri
   } = req.query
   res.cookie('SimpleMessageInfo', {
     appId,
@@ -73,53 +77,80 @@ app.get('/config', async (req, res) => {
     'signed': false,
     'encode': String
   })
-  return res.redirect(`https://rest.coolsms.co.kr/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=${response_type}&redirect_uri=${redirectUri}`)
+  return res.redirect('/')
 })
+
+// 앱 관련 정보 불러와서 authorize로 redirect 시켜줌
+app.get('/auth', (req, res) => {
+  const { state, scope, response_type } = req.query
+  const { clientId, redirectUri } = getAuthInfo(req.cookies)
+  return res.redirect(`${host}/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=${response_type}&redirect_uri=${redirectUri}`)
+})
+
+// 앱 관련 정보 불러오는 함수
+// 쿠키에 있으면 쿠키의 정보를, 없으면 config의 정보를 RETURN 함
+function getAuthInfo (cookies) {
+  const { SimpleMessageInfo } = cookies
+  if (SimpleMessageInfo && SimpleMessageInfo.clientId) {
+    return {
+      clientId: SimpleMessageInfo.clientId,
+      clientSecret: SimpleMessageInfo.clientSecret,
+      redirectUri: SimpleMessageInfo.redirectUri,
+      appId: SimpleMessageInfo.appId
+    }
+  }
+  return {
+    clientId,
+    clientSecret,
+    redirectUri,
+    appId
+  }
+}
 
 // 인증 처리 API
 app.get('/authorize', async (req, res) => {
-  const { code } = req.query
-  const {
-    SimpleMessageInfo: {
-      clientId,
-      clientSecret,
-      redirectUri
-    }
-  } = req.cookies
-  const { access_token } = await request({
-    method: 'POST',
-    uri: 'https://rest.coolsms.co.kr/oauth2/v1/access_token',
-    body: {
-      grant_type: 'authorization_code',
-      code,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri
-    },
-    json: true
-  })
-  res.cookie('CSAK', access_token, {
-    'domain': '',
-    'httpOnly': false,
-    'signed': false,
-    'encode': String
-  })
-  res.redirect('/send')
+  try {
+    const {code} = req.query
+    const {clientId, clientSecret, redirectUri} = getAuthInfo(req.cookies)
+    const {access_token} = await request({
+      method: 'POST',
+      uri: `${host}/oauth2/v1/access_token`,
+      body: {
+        grant_type: 'authorization_code',
+        code,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri
+      },
+      json: true
+    })
+    res.cookie('CSAK', access_token, {
+      'domain': '',
+      'httpOnly': false,
+      'signed': false,
+      'encode': String
+    })
+    res.redirect('/send')
+  } catch (err) {
+    const { errorCode, errorMessage } = err.error
+    return res.redirect(`send?result=${errorCode}-${errorMessage}`)
+  }
 })
 
 // 문자 전송 API
 app.post('/send', async (req, res) => {
-  const { body: { text, to, from }, cookies: { CSAK, SimpleMessageInfo } } = req
+  const { body: { text, to, from }, cookies: { CSAK } } = req
+  const { appId } = getAuthInfo(req.cookies)
   try {
     const result = await request({
       method: 'POST',
-      uri: 'https://rest.coolsms.co.kr/messages/v4/send',
+      uri: `${host}/messages/v4/send`,
       headers: {
         'Authorization': `bearer ${CSAK}`
       },
       body: {
         message: {text, to, from},
-        agent: {appId: SimpleMessageInfo.appId}
+        agent: { appId }
       },
       json: true
     })

@@ -3,42 +3,79 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>SimpleMessage - 인증절차</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <h3 class="text-center title">Simple Message</h3>
-    <form method="get" action="/config">
-        <div class="form-group">
-            <label for="app_id">App Id</label>
-            <input type="text" class="form-control" name="app_id" id="app_id" value="<%= appId %>">
+    <div class="row">
+        <div class="col-md-12 login-wrap">
+            <form action="/auth">
+                <div class="form-group">
+                    <input type="submit" class="btn block" value="쿨에스엠에스로 로그인">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-develop" type="button" data-toggle="collapse"
+                            data-target="#collapseExample"
+                            aria-expanded="false" aria-controls="collapseExample">
+                        <% if(appId) { %>
+                            개발자모드 설정(설정됨)
+                        <% } else { %>
+                            개발자모드 설정
+                        <% } %>
+                    </button>
+                </div>
+                <input type="hidden" value="<%= state %>" name="state">
+                <input type="hidden" value="code" name="response_type">
+                <input type="hidden" value="<%= redirectUri %>" name="redirect_uri">
+                <input type="hidden" value="users:read message:write" name="scope">
+            </form>
         </div>
-        <div class="form-group">
-            <label for="client_id">Client Id</label>
-            <input type="text" class="form-control" name="client_id" id="client_id" value="<%= clientId %>">
+        <div class="col-md-12 collapse" id="collapseExample">
+            <h3 class="text-center title">Simple Message</h3>
+            <form method="get" action="/config">
+                <div class="form-group">
+                    <label for="app_id">App Id</label>
+                    <input type="text" class="form-control" name="app_id" id="app_id" value="<%= appId %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="client_id">Client Id</label>
+                    <input type="text" class="form-control" name="client_id" id="client_id" value="<%= clientId %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="client_secret">Client Secret</label>
+                    <input type="text" class="form-control" name="client_secret" id="client_secret"
+                           value="<%= clientSecret %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="response_type">Response Type</label>
+                    <input type="text" class="form-control" readonly name="response_type" id="response_type"
+                           value="code" required>
+                </div>
+                <div class="form-group">
+                    <label for="scope">Scope</label>
+                    <input type="text" class="form-control" name="scope" id="scope" value="users:read" required>
+                </div>
+                <div class="form-group">
+                    <label for="redirect_uri">Redirect Uri</label>
+                    <input type="text" class="form-control" name="redirect_uri" id="redirect_uri"
+                           value="<%= redirectUri %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" readonly name="state" id="state" value="<%= state %>" required>
+                </div>
+                <input type="submit" value="저장" class="btn btn-block btn-info"/>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="client_secret">Client Secret</label>
-            <input type="text" class="form-control" name="client_secret" id="client_secret" value="<%= clientSecret %>">
-        </div>
-        <div class="form-group">
-            <label for="response_type">Response Type</label>
-            <input type="text" class="form-control" readonly name="response_type" id="response_type" value="code">
-        </div>
-        <div class="form-group">
-            <label for="scope">Scope</label>
-            <input type="text" class="form-control" name="scope" id="scope" value="users:read">
-        </div>
-        <div class="form-group">
-            <label for="redirect_uri">Redirect Uri</label>
-            <input type="text" class="form-control" name="redirect_uri" id="redirect_uri" value="<%= redirectUri %>">
-        </div>
-        <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" class="form-control" readonly name="state" id="state" value="<%= state %>">
-        </div>
-        <input type="submit" value="인증요청" class="btn btn-block btn-success"/>
-    </form>
+    </div>
 </div>
 </body>
 </html>
