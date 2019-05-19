@@ -1,16 +1,31 @@
+.send-container {
+    width: 100%;
+    max-width: 350px !important;
+    margin-top: 20vh !important;
+}
+
 .container {
     width: 100%;
-    /*max-width: 550px;*/
     margin-top: 4vh;
 }
 
 .login-wrap {
-    padding-top: 20%;
+    position: absolute;
+    text-align: center;
+    top: 40%;
+}
+
+.login-wrap form {
+    height: 200px;
+}
+
+.text-align {
     text-align: center;
 }
 
-.login-wrap input[type=submit] {
-    background-color: #0c5eba;
+.login-form {
+  margin-top: 35px;
+  margin-bottom: 35px;
 }
 
 .login-wrap input[type=button] {
