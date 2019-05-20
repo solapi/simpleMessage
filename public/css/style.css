@@ -9,10 +9,19 @@
     margin-top: 4vh;
 }
 
+.login-area {
+    padding-top: 40vh;
+}
+
+@media (max-width: 780px) {
+    .login-area {
+        padding-top: 10vh;
+    }
+}
+
 .login-wrap {
     position: absolute;
     text-align: center;
-    top: 40%;
 }
 
 .login-wrap form {
@@ -24,8 +33,8 @@
 }
 
 .login-form {
-  margin-top: 35px;
-  margin-bottom: 35px;
+    margin-top: 35px;
+    margin-bottom: 35px;
 }
 
 .login-wrap input[type=button] {
