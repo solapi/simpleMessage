@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 login-wrap">
+            <div class="col-md-6 login-area">
                 <div class="col-md-10 login-wrap">
                     <form action="/auth">
                         <blockquote class="blockquote">
@@ -72,7 +72,7 @@
                         <div class="form-group login-form">
                             <input type="submit" value="솔라피 로그인" class="btn btn-block btn-primary"/>
                         </div>
-                        
+
                         <input type="hidden" value="<%= state %>" name="state">
                         <input type="hidden" value="<%= redirectUri %>" name="redirect_uri">
                         <input type="hidden" value="<%= scope %>" name="scope">

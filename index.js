@@ -65,7 +65,7 @@ function getAuthInfo (cookies) {
   const { SimpleMessageInfo } = cookies
   const info = { clientId, clientSecret, redirectUri, appId }
   if (SimpleMessageInfo && SimpleMessageInfo.clientId) {
-    Object.assign(info, simpleMessageInfo)
+    Object.assign(info, SimpleMessageInfo)
   }
   return info
 }
