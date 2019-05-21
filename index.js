@@ -6,13 +6,7 @@ const app = express()
 const request = require('request-promise')
 const bodyParser = require('body-parser')
 const nanoId = require('nanoid')
-const {
-  clientId,
-  clientSecret,
-  redirectUri,
-  appId,
-  host
-} = require('./config')
+const { clientId, clientSecret, redirectUri, appId, host } = require('./config')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -25,7 +19,14 @@ app.engine('html', require('ejs').renderFile)
 // 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
   const { SimpleMessageInfo } = req.cookies
-  const info = { state: nanoId(), appId: '', clientId: '', clientSecret: '', redirectUri: '', scope: 'users:read' }
+  const info = {
+    state: nanoId(),
+    appId: '',
+    clientId: '',
+    clientSecret: '',
+    redirectUri: '',
+    scope: 'users:read'
+  }
   if (SimpleMessageInfo) Object.assign(info, SimpleMessageInfo)
   res.render('index', info)
 })
@@ -39,9 +40,9 @@ app.get('/send', (req, res) => res.render('send', { result: req.query.result }))
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
   res.cookie('SimpleMessageInfo', req.body, {
-    'httpOnly': false,
-    'signed': false,
-    'encode': String
+    httpOnly: false,
+    signed: false,
+    encode: String
   })
   return res.redirect('/')
 })
@@ -56,12 +57,14 @@ app.post('/init', async (req, res) => {
 app.get('/auth', (req, res) => {
   const { state, scope } = req.query
   const { clientId, redirectUri } = getAuthInfo(req.cookies)
-  return res.redirect(`${host}/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`)
+  return res.redirect(
+    `${host}/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`
+  )
 })
 
 // 앱 관련 정보 불러오는 함수
 // 쿠키에 있으면 쿠키의 정보를, 없으면 config의 정보를 RETURN 함
-function getAuthInfo (cookies) {
+function getAuthInfo(cookies) {
   const { SimpleMessageInfo } = cookies
   const info = { clientId, clientSecret, redirectUri, appId }
   if (SimpleMessageInfo && SimpleMessageInfo.clientId) {
@@ -88,9 +91,9 @@ app.get('/authorize', async (req, res) => {
       json: true
     })
     res.cookie('TOKEN_COOKIE', access_token, {
-      'httpOnly': false,
-      'signed': false,
-      'encode': String
+      httpOnly: false,
+      signed: false,
+      encode: String
     })
     res.redirect('/send')
   } catch (err) {
@@ -101,14 +104,17 @@ app.get('/authorize', async (req, res) => {
 
 // 문자 전송 API
 app.post('/send', async (req, res) => {
-  const { body: { text, to, from }, cookies: { TOKEN_COOKIE } } = req
+  const {
+    body: { text, to, from },
+    cookies: { TOKEN_COOKIE }
+  } = req
   const { appId } = getAuthInfo(req.cookies)
   try {
     const result = await request({
       method: 'POST',
       uri: `${host}/messages/v4/send`,
       headers: {
-        'Authorization': `bearer ${TOKEN_COOKIE}`
+        Authorization: `bearer ${TOKEN_COOKIE}`
       },
       body: {
         message: { text, to, from },

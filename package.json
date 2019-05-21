@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier-eslint --write \"./*.js\""
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,8 @@
     "nodemon": "^1.19.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
+  },
+  "devDependencies": {
+    "prettier-eslint-cli": "^4.7.1"
   }
 }
