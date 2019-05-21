@@ -1,7 +1,7 @@
 # simpleMessage
 
 ![App Version](https://img.shields.io/badge/simpleMessage-1.0.0-blue.svg)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 [Node js](https://nodejs.org/ko/), [Express](https://expressjs.com/ko/)로 만들어진 솔라피를 통한 문자메시지 발송이 가능한 웹앱입니다.
 
