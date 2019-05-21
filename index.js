@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     scope: 'users:read'
   }
   if (APP_COOKIE) Object.assign(info, APP_COOKIE)
-  res.render('index', info)
+  return res.render('index', info)
 })
 
 // 로그인 버튼 view
@@ -39,18 +39,18 @@ app.get('/send', (req, res) => res.render('send', { result: req.query.result }))
 
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
-  res.cookie('APP_COOKIE', req.body, {
-    httpOnly: false,
-    signed: false,
-    encode: String
-  })
-  return res.redirect('/')
+  return res
+    .cookie('APP_COOKIE', req.body, {
+      httpOnly: false,
+      signed: false,
+      encode: String
+    })
+    .redirect('/')
 })
 
 // 쿠키 삭제 후 초기 화면으로 redirect
 app.post('/init', async (req, res) => {
-  res.clearCookie('APP_COOKIE')
-  return res.redirect('/')
+  return res.clearCookie('APP_COOKIE').redirect('/')
 })
 
 // 앱 관련 정보 불러와서 authorize로 redirect 시켜줌
@@ -90,12 +90,13 @@ app.get('/authorize', async (req, res) => {
       },
       json: true
     })
-    res.cookie('TOKEN_COOKIE', access_token, {
-      httpOnly: false,
-      signed: false,
-      encode: String
-    })
-    res.redirect('/send')
+    return res
+      .cookie('TOKEN_COOKIE', access_token, {
+        httpOnly: false,
+        signed: false,
+        encode: String
+      })
+      .redirect('/send')
   } catch (err) {
     const { errorCode, errorMessage } = err.error
     return res.redirect(`send?result=${errorCode}-${errorMessage}`)
