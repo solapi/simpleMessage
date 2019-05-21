@@ -18,7 +18,7 @@ app.engine('html', require('ejs').renderFile)
 
 // 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
-  const { SimpleMessageInfo } = req.cookies
+  const { APP_COOKIE } = req.cookies
   const info = {
     state: nanoId(),
     appId: '',
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
     redirectUri: '',
     scope: 'users:read'
   }
-  if (SimpleMessageInfo) Object.assign(info, SimpleMessageInfo)
+  if (APP_COOKIE) Object.assign(info, APP_COOKIE)
   res.render('index', info)
 })
 
@@ -39,7 +39,7 @@ app.get('/send', (req, res) => res.render('send', { result: req.query.result }))
 
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
-  res.cookie('SimpleMessageInfo', req.body, {
+  res.cookie('APP_COOKIE', req.body, {
     httpOnly: false,
     signed: false,
     encode: String
@@ -49,7 +49,7 @@ app.post('/config', async (req, res) => {
 
 // 쿠키 삭제 후 초기 화면으로 redirect
 app.post('/init', async (req, res) => {
-  res.clearCookie('SimpleMessageInfo')
+  res.clearCookie('APP_COOKIE')
   return res.redirect('/')
 })
 
@@ -65,10 +65,10 @@ app.get('/auth', (req, res) => {
 // 앱 관련 정보 불러오는 함수
 // 쿠키에 있으면 쿠키의 정보를, 없으면 config의 정보를 RETURN 함
 function getAuthInfo(cookies) {
-  const { SimpleMessageInfo } = cookies
+  const { APP_COOKIE } = cookies
   const info = { clientId, clientSecret, redirectUri, appId }
-  if (SimpleMessageInfo && SimpleMessageInfo.clientId) {
-    Object.assign(info, SimpleMessageInfo)
+  if (APP_COOKIE && APP_COOKIE.clientId) {
+    Object.assign(info, APP_COOKIE)
   }
   return info
 }
