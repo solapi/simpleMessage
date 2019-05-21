@@ -3,5 +3,5 @@
 
 Node js, Express로 만들어진 솔라피를 통한 문자메시지 발송이 가능한 웹앱입니다.
 
-![실행 화면](./screenshots/앱_실행화면.png)
-
+![앱 첫 화면](./screenshots/앱_첫_화면.png)
+![앱 발송 화면](./screenshots/앱_발송_화면.png)
