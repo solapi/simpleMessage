@@ -22,6 +22,7 @@
 .login-wrap {
     position: absolute;
     text-align: center;
+    transform: translateY(-50%);
 }
 
 .login-wrap form {
