@@ -1,6 +1,5 @@
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>SimpleMessage - 문자 발송</title>
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -24,15 +23,15 @@
         <form method="post" action="/send">
             <div class="form-group">
                 <label for="from">발신번호</label>
-                <input type="text" class="form-control" name="from" id="from">
+                <input type="text" class="form-control" name="from" id="from" placeholder="발신번호를 입력해주세요...">
             </div>
             <div class="form-group">
                 <label for="to">수신번호</label>
-                <input type="text" class="form-control" name="to" id="to">
+                <input type="text" class="form-control" name="to" id="to" placeholder="수신번호를 입력해주세요...">
             </div>
             <div class="form-group">
                 <label for="text">내용</label>
-                <textarea class="form-control" name="text" id="text"></textarea>
+                <textarea class="form-control" name="text" id="text" placeholder="문자 내용을 입력해주세요..."></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-block btn-success" value="발송"/>
@@ -49,7 +48,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <% if(result) { %>
+                        <% if (result) { %>
                             <code>
                                 <%= result %>
                             </code>

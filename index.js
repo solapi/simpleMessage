@@ -111,7 +111,7 @@ app.post('/send', async (req, res) => {
         'Authorization': `bearer ${TOKEN_COOKIE}`
       },
       body: {
-        message: {text, to, from},
+        message: { text, to, from },
         agent: { appId }
       },
       json: true
