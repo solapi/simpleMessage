@@ -91,7 +91,7 @@ app.get('/authorize', async (req, res) => {
       json: true
     })
     return res
-      .cookie('TOKEN_COOKIE', access_token, {
+      .cookie('APP_COOKIE', access_token, {
         httpOnly: false,
         signed: false,
         encode: String
@@ -107,7 +107,7 @@ app.get('/authorize', async (req, res) => {
 app.post('/send', async (req, res) => {
   const {
     body: { text, to, from },
-    cookies: { TOKEN_COOKIE }
+    cookies: { APP_COOKIE }
   } = req
   const { appId } = getAuthInfo(req.cookies)
   try {
@@ -115,7 +115,7 @@ app.post('/send', async (req, res) => {
       method: 'POST',
       uri: `${host}/messages/v4/send`,
       headers: {
-        Authorization: `bearer ${TOKEN_COOKIE}`
+        Authorization: `bearer ${APP_COOKIE}`
       },
       body: {
         message: { text, to, from },
