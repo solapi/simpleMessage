@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => res.render('login'))
 
 // 문자 전송 view
-app.get('/send', (req, res) => res.render('send', { result: req.query.result }))
+app.get('/send', (req, res) => res.render('send', { result: req.query.result, type: req.query.type }))
 
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
@@ -46,11 +46,6 @@ app.post('/config', async (req, res) => {
       encode: String
     })
     .redirect('/')
-})
-
-// 쿠키 삭제 후 초기 화면으로 redirect
-app.post('/init', async (req, res) => {
-  return res.clearCookie('APP_COOKIE').redirect('/')
 })
 
 // 앱 관련 정보 불러와서 authorize로 redirect 시켜줌
@@ -123,10 +118,12 @@ app.post('/send', async (req, res) => {
       },
       json: true
     })
-    return res.redirect(`send?result=${JSON.stringify(result)}`)
+    return res.redirect(`send?result=${JSON.stringify(result)}&type=success`)
   } catch (err) {
     const { errorCode, errorMessage } = err.error
-    return res.redirect(`send?result=${errorCode}-${errorMessage}`)
+    let errMsg = errorMessage.split(']')
+    errMsg = errMsg[errMsg.length - 1].trim()
+    return res.redirect(`send?result=${errorCode}-${errMsg}&type=error`)
   }
 })
 

@@ -45,3 +45,12 @@
     margin-bottom: 2vh;
 }
 
+.modal-body {
+    font-size: .9em;
+    line-height: 2;
+}
+
+.modal-body span {
+    width: 20%;
+    display: inline-block;
+}
