@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     clientId: '',
     clientSecret: '',
     redirectUri: '',
-    scope: 'users:read'
+    scope: 'message:write'
   }
   if (APP_COOKIE) Object.assign(info, APP_COOKIE)
   return res.render('index', info)

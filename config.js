@@ -1,7 +1,7 @@
 module.exports = {
-  appId: 'vTL0qHdlXXXp',
-  clientId: 'CIDPL49TEFPSPLZS',
-  clientSecret: 'IXA1ZTKXP4ZW15BPPUB8CMII7ESAT2VO',
+  appId: '5uWnCaVM6FeO',
+  clientId: 'CIDXMNN2HQ0KZ7XT',
+  clientSecret: 'M2PKOZRDFZ0ZJRWXF5NZ8DTDLKQXZTKU',
   redirectUri: 'http://localhost/authorize',
-  host: 'https://api.solapi.net'
+  host: 'https://api.solapi.com'
 }

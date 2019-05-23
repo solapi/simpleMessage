@@ -64,10 +64,10 @@
                     <% } else {
                         const { groupId, from, to, messageId, type, statusMessage } = JSON.parse(result) %>
                     <span>그룹 ID</span>
-                    <a href="https://www.solapi.net/message-log?criteria=groupId&value=<%= groupId %>&cond=eq"><%= groupId %></a>
+                    <a href="https://www.solapi.com/message-log?criteria=groupId&value=<%= groupId %>&cond=eq"><%= groupId %></a>
                     <br>
                     <span>메시지 ID</span>
-                    <a href="https://www.solapi.net/message-log/detail?criteria=messageId&value=<%= messageId %>&cond=eq"><%= messageId %></a>
+                    <a href="https://www.solapi.com/message-log/detail?criteria=messageId&value=<%= messageId %>&cond=eq"><%= messageId %></a>
                     <br>
                     <span>발신번호</span>
                     <%= from %>
