@@ -9,33 +9,17 @@
     margin-top: 4vh;
 }
 
-.login-area {
-    padding-top: 40vh;
-}
-
-@media (max-width: 780px) {
-    .login-area {
-        padding-top: 10vh;
-    }
-}
-
 .login-wrap {
     position: absolute;
-    text-align: center;
+    margin: 40vh auto 0;
     transform: translateY(-50%);
 }
 
 .login-wrap form {
+    max-width: 400px;
     height: 200px;
-}
-
-.text-align {
     text-align: center;
-}
-
-.login-form {
-    margin-top: 35px;
-    margin-bottom: 35px;
+    margin: 0 auto;
 }
 
 .login-wrap input[type=button] {
@@ -61,3 +45,12 @@
     margin-bottom: 2vh;
 }
 
+.modal-body {
+    font-size: .9em;
+    line-height: 2;
+}
+
+.modal-body span {
+    width: 20%;
+    display: inline-block;
+}

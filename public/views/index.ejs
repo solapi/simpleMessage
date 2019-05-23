@@ -1,7 +1,8 @@
-<html lang="ko">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>SimpleMessage - 인증절차</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -14,72 +15,24 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="col-md-10" id="collapseExample">
-                    <blockquote class="blockquote text-align">
-                        <h3 class="mb-2">OAuth2 환경설정</h3>
-                        <footer class="blockquote-footer"><a href="https://www.coolsms.co.kr/me/apps">앱 관리 페이지</a>에서 확인가능한 OAuth2 설정 값</footer>
-                        <footer class="blockquote-footer">설정값이 없으면 기본적으로 서버에 설정된 값을 통해 로그인 됩니다.</footer>
-                    </blockquote>
-                    <form method="post" action="/config">
-                        <div class="form-group">
-                            <label for="app_id">App Id</label>
-                            <input type="text" class="form-control" name="appId" id="app_id" value="<%= appId %>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="client_id">Client Id</label>
-                            <input type="text" class="form-control" name="clientId" id="client_id" value="<%= clientId %>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="client_secret">Client Secret</label>
-                            <input type="text" class="form-control" name="clientSecret" id="client_secret"
-                                value="<%= clientSecret %>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="response_type">Response Type</label>
-                            <input type="text" class="form-control" readonly id="response_type" value="code" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="scope">Scope</label>
-                            <input type="text" class="form-control" name="scope" id="scope" value="<%= scope %>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="redirect_uri">Redirect Uri</label>
-                            <input type="text" class="form-control" name="redirectUri" id="redirect_uri"
-                                value="<%= redirectUri %>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <input type="text" class="form-control" readonly name="state" id="state" value="<%= state %>" required>
-                        </div>
-                        <input type="submit" value="저장" class="btn btn-block btn-primary"/>
-                    </form>
-                    <form method="post" action="/init">
-                        <input type="submit" value="초기화" class="btn btn-block btn-secondary"/>
-                    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 login-wrap">
+            <form action="/auth">
+                <blockquote class="blockquote">
+                    <h3 class="mb-2">심플 메시지</h3>
+                    <footer class="blockquote-footer">로그인 후 문자발송페이지로 이동 합니다.</footer>
+                </blockquote>
+                <div class="form-group">
+                    <input type="submit" value="솔라피 로그인" class="btn btn-block btn-primary"/>
                 </div>
-            </div>
 
-            <div class="col-md-6 login-area">
-                <div class="col-md-10 login-wrap">
-                    <form action="/auth">
-                        <blockquote class="blockquote">
-                            <h3 class="mb-2">OAuth2 로그인</h3>
-                            <footer class="blockquote-footer">로그인 후 문자발송페이지로 이동 합니다.</footer>
-                        </blockquote>
-                        <div class="form-group login-form">
-                            <input type="submit" value="솔라피 로그인" class="btn btn-block btn-primary"/>
-                        </div>
-
-                        <input type="hidden" value="<%= state %>" name="state">
-                        <input type="hidden" value="<%= redirectUri %>" name="redirect_uri">
-                        <input type="hidden" value="<%= scope %>" name="scope">
-                    </form>
-                </div>
-            </div>
+                <input type="hidden" value="<%= state %>" name="state">
+                <input type="hidden" value="<%= redirectUri %>" name="redirect_uri">
+                <input type="hidden" value="<%= scope %>" name="scope">
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>

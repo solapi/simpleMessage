@@ -6,13 +6,7 @@ const app = express()
 const request = require('request-promise')
 const bodyParser = require('body-parser')
 const nanoId = require('nanoid')
-const {
-  clientId,
-  clientSecret,
-  redirectUri,
-  appId,
-  host
-} = require('./config')
+const { clientId, clientSecret, redirectUri, appId, host } = require('./config')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -24,48 +18,54 @@ app.engine('html', require('ejs').renderFile)
 
 // 첫 페이지 (인증 정보들 입력) view
 app.get('/', (req, res) => {
-  const { SimpleMessageInfo } = req.cookies
-  const info = { state: nanoId(), appId: '', clientId: '', clientSecret: '', redirectUri: '', scope: 'users:read' }
-  if (SimpleMessageInfo) Object.assign(info, SimpleMessageInfo)
-  res.render('index', info)
+  const { APP_COOKIE } = req.cookies
+  const info = {
+    state: nanoId(),
+    appId: '',
+    clientId: '',
+    clientSecret: '',
+    redirectUri: '',
+    scope: 'message:write'
+  }
+  if (APP_COOKIE) Object.assign(info, APP_COOKIE)
+  return res.render('index', info)
 })
 
 // 로그인 버튼 view
 app.get('/login', (req, res) => res.render('login'))
 
 // 문자 전송 view
-app.get('/send', (req, res) => res.render('send', { result: req.query.result }))
+app.get('/send', (req, res) =>
+  res.render('send', { result: req.query.result, type: req.query.type })
+)
 
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
-  res.cookie('SimpleMessageInfo', req.body, {
-    'httpOnly': false,
-    'signed': false,
-    'encode': String
-  })
-  return res.redirect('/')
-})
-
-// 쿠키 삭제 후 초기 화면으로 redirect
-app.post('/init', async (req, res) => {
-  res.clearCookie('SimpleMessageInfo')
-  return res.redirect('/')
+  return res
+    .cookie('APP_COOKIE', req.body, {
+      httpOnly: false,
+      signed: false,
+      encode: String
+    })
+    .redirect('/')
 })
 
 // 앱 관련 정보 불러와서 authorize로 redirect 시켜줌
 app.get('/auth', (req, res) => {
   const { state, scope } = req.query
   const { clientId, redirectUri } = getAuthInfo(req.cookies)
-  return res.redirect(`${host}/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`)
+  return res.redirect(
+    `${host}/oauth2/v1/authorize?client_id=${clientId}&state=${state}&scope=${scope}&response_type=code&redirect_uri=${redirectUri}`
+  )
 })
 
 // 앱 관련 정보 불러오는 함수
 // 쿠키에 있으면 쿠키의 정보를, 없으면 config의 정보를 RETURN 함
-function getAuthInfo (cookies) {
-  const { SimpleMessageInfo } = cookies
+function getAuthInfo(cookies) {
+  const { APP_COOKIE } = cookies
   const info = { clientId, clientSecret, redirectUri, appId }
-  if (SimpleMessageInfo && SimpleMessageInfo.clientId) {
-    Object.assign(info, SimpleMessageInfo)
+  if (APP_COOKIE && APP_COOKIE.clientId) {
+    Object.assign(info, APP_COOKIE)
   }
   return info
 }
@@ -87,12 +87,13 @@ app.get('/authorize', async (req, res) => {
       },
       json: true
     })
-    res.cookie('TOKEN_COOKIE', access_token, {
-      'httpOnly': false,
-      'signed': false,
-      'encode': String
-    })
-    res.redirect('/send')
+    return res
+      .cookie('APP_COOKIE', access_token, {
+        httpOnly: false,
+        signed: false,
+        encode: String
+      })
+      .redirect('/send')
   } catch (err) {
     const { errorCode, errorMessage } = err.error
     return res.redirect(`send?result=${errorCode}-${errorMessage}`)
@@ -101,25 +102,30 @@ app.get('/authorize', async (req, res) => {
 
 // 문자 전송 API
 app.post('/send', async (req, res) => {
-  const { body: { text, to, from }, cookies: { TOKEN_COOKIE } } = req
+  const {
+    body: { text, to, from },
+    cookies: { APP_COOKIE }
+  } = req
   const { appId } = getAuthInfo(req.cookies)
   try {
     const result = await request({
       method: 'POST',
       uri: `${host}/messages/v4/send`,
       headers: {
-        'Authorization': `bearer ${TOKEN_COOKIE}`
+        Authorization: `bearer ${APP_COOKIE}`
       },
       body: {
-        message: {text, to, from},
+        message: { text, to, from },
         agent: { appId }
       },
       json: true
     })
-    return res.redirect(`send?result=${JSON.stringify(result)}`)
+    return res.redirect(`send?result=${JSON.stringify(result)}&type=success`)
   } catch (err) {
     const { errorCode, errorMessage } = err.error
-    return res.redirect(`send?result=${errorCode}-${errorMessage}`)
+    let errMsg = errorMessage.split(']')
+    errMsg = errMsg[errMsg.length - 1].trim()
+    return res.redirect(`send?result=${errorCode}-${errMsg}&type=error`)
   }
 })
 
