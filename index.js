@@ -35,7 +35,9 @@ app.get('/', (req, res) => {
 app.get('/login', (req, res) => res.render('login'))
 
 // 문자 전송 view
-app.get('/send', (req, res) => res.render('send', { result: req.query.result, type: req.query.type }))
+app.get('/send', (req, res) =>
+  res.render('send', { result: req.query.result, type: req.query.type })
+)
 
 // 설정 저장하고 다시 초기 화면으로 redirect
 app.post('/config', async (req, res) => {
