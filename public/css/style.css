@@ -1,7 +1,12 @@
 .send-container {
     width: 100%;
     max-width: 350px !important;
-    margin-top: 20vh !important;
+    margin-top: 5vh !important;
+}
+
+.send-container img {
+    display: block;
+    margin: 0 auto;
 }
 
 .container {
@@ -11,7 +16,7 @@
 
 .login-wrap {
     position: absolute;
-    margin: 40vh auto 0;
+    margin: 30vh auto 0;
     transform: translateY(-50%);
 }
 
@@ -53,4 +58,8 @@
 .modal-body span {
     width: 20%;
     display: inline-block;
+}
+
+.logo {
+    width: 230px;
 }
