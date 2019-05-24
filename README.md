@@ -7,6 +7,7 @@
 
 ![앱 첫 화면](./screenshots/앱_첫_화면.png)
 ![앱 발송 화면](./screenshots/앱_발송_화면.png)
+![앱 발송 결과](./screenshots/앱_발송_결과.png)
 
 ## 사용법
 

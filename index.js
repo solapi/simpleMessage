@@ -18,7 +18,6 @@ app.engine('html', require('ejs').renderFile)
 
 // 첫 페이지 View
 app.get('/', (req, res) => {
-  const { APP_COOKIE } = req.cookies
   const info = { state: nanoId(), redirectUri, scope: 'message:write' }
   return res.render('index', info)
 })
