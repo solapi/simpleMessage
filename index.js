@@ -18,7 +18,6 @@ app.engine('html', require('ejs').renderFile)
 
 // 첫 페이지 View
 app.get('/', (req, res) => {
-  const { APP_COOKIE } = req.cookies
   const info = { state: nanoId(), redirectUri, scope: 'message:write' }
   return res.render('index', info)
 })
@@ -57,11 +56,13 @@ app.get('/authorize', async (req, res) => {
       },
       json: true
     })
-    return res.cookie('APP_COOKIE', access_token, {
-      httpOnly: false,
-      signed: false,
-      encode: String
-    }).redirect('/send')
+    return res
+      .cookie('APP_COOKIE', access_token, {
+        httpOnly: false,
+        signed: false,
+        encode: String
+      })
+      .redirect('/send')
   } catch (err) {
     const { errorCode, errorMessage } = err.error
     return res.redirect(`send?result=${errorCode}-${errorMessage}`)

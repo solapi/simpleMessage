@@ -144,3 +144,4 @@ fabric.properties
 
 # NPM
 package-lock.json
+**/.DS_Store
