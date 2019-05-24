@@ -56,11 +56,13 @@ app.get('/authorize', async (req, res) => {
       },
       json: true
     })
-    return res.cookie('APP_COOKIE', access_token, {
-      httpOnly: false,
-      signed: false,
-      encode: String
-    }).redirect('/send')
+    return res
+      .cookie('APP_COOKIE', access_token, {
+        httpOnly: false,
+        signed: false,
+        encode: String
+      })
+      .redirect('/send')
   } catch (err) {
     const { errorCode, errorMessage } = err.error
     return res.redirect(`send?result=${errorCode}-${errorMessage}`)
