@@ -63,3 +63,11 @@
 .logo {
     width: 230px;
 }
+
+.send-message-btn {
+    background-color: rgb(79, 69, 192) !important;
+}
+
+.check-message-result {
+    background-color: rgb(145, 138, 217) !important;
+}
