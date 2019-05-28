@@ -1,0 +1,73 @@
+.send-container {
+    width: 100%;
+    max-width: 350px !important;
+    margin-top: 5vh !important;
+}
+
+.send-container img {
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+    width: 100%;
+    margin-top: 4vh;
+}
+
+.login-wrap {
+    position: absolute;
+    margin: 30vh auto 0;
+    transform: translateY(-50%);
+}
+
+.login-wrap form {
+    max-width: 400px;
+    height: 200px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.login-wrap input[type=button] {
+    background-color: #43a047;
+}
+
+.login-wrap input[type=submit]:hover {
+    color: #ffffff;
+}
+
+.btn {
+    display: block;
+    width: 300px;
+    color: #ffffff !important;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+.title {
+    margin-bottom: 2vh;
+}
+
+.modal-body {
+    font-size: .9em;
+    line-height: 2;
+}
+
+.modal-body span {
+    width: 20%;
+    display: inline-block;
+}
+
+.logo {
+    width: 230px;
+}
+
+.send-message-btn {
+    background-color: rgb(79, 69, 192) !important;
+}
+
+.check-message-result {
+    background-color: rgb(145, 138, 217) !important;
+}
