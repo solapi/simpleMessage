@@ -22,9 +22,6 @@ app.get('/', (req, res) => {
   return res.render('index', info)
 })
 
-// 로그인 버튼 view
-app.get('/login', (req, res) => res.render('login'))
-
 // 문자 전송 view
 app.get('/send', (req, res) => {
   const { result, type } = req.query
